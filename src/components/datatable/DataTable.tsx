@@ -1,4 +1,5 @@
 import { MouseEventHandler, ReactElement, ReactNode } from 'react'
+import { TbPlus } from 'react-icons/tb'
 import classNames from 'classnames'
 import Row from './Row'
 import Button from '../button'
@@ -33,7 +34,10 @@ export default function DataTable<T>({
     >
       <header className="mb-auto flex justify-between">
         <div>Search</div>
-        <Button onClick={addButtonProps.onClick}>{addButtonProps.label}</Button>
+        <Button onClick={addButtonProps.onClick}>
+          <TbPlus />
+          {addButtonProps.label}
+        </Button>
       </header>
       <table className="w-full flex flex-col h-full">
         <thead className="w-full">

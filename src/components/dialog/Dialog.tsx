@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { Dialog as HDialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import classNames from 'classnames'
+import { IoCloseOutline } from 'react-icons/io5'
 
 interface DialogProps {
   children: ReactNode
@@ -26,7 +27,14 @@ export default function Dialog({
             className
           )}
         >
-          <DialogTitle className="font-bold">{title}</DialogTitle>
+          <DialogTitle className="font-bold flex align-center justify-between">
+            {title}{' '}
+            <IoCloseOutline
+              onClick={onClose}
+              size={24}
+              className="cursor-pointer hover:bg-slate-100"
+            />
+          </DialogTitle>
           {children}
         </DialogPanel>
       </div>

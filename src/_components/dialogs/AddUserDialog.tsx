@@ -17,9 +17,14 @@ export default function AddUserDialog({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useAddUserForm()
 
-  const onSubmit = (data: AddUserFormSchema) => console.log(data)
+  const onSubmit = (data: AddUserFormSchema) => {
+    console.log(data)
+    reset()
+    onClose()
+  }
 
   return (
     <Dialog
