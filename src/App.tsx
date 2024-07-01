@@ -1,10 +1,21 @@
-import DataTable from './components/datatable'
+import DataTable, { Column } from './components/datatable'
+import { UserRecord } from './types'
+import { useColumns } from './utils'
 
 function App() {
+  const columns = useColumns()
+
   return (
     <div className="h-screen w-screen flex justify-center items-center">
-      <h1 className="text-slate-400">Hello There</h1>
-      <DataTable />
+      <DataTable data={[] as UserRecord[]}>
+        {columns.map((column) => (
+          <Column
+            key={column.key}
+            header={column.label}
+            render={(row: UserRecord) => <span>{row.id}</span>}
+          />
+        ))}
+      </DataTable>
     </div>
   )
 }
