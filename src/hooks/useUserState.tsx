@@ -4,6 +4,7 @@ import type { UserRecord } from '../types'
 
 export function useUserState() {
   const [users, setUsers] = useState<UserRecord[]>([])
+  const [searchValue, setSearchValue] = useState('')
   const [page, setPage] = useState(1)
   const [limit, setLimit] = useState(10)
 
@@ -20,11 +21,17 @@ export function useUserState() {
   }
 
   return {
-    users,
-    add,
-    page,
-    setPage,
-    limit,
-    setLimit,
+    states: {
+      users,
+      page,
+      limit,
+      searchValue,
+    },
+    actions: {
+      add,
+      setPage,
+      setLimit,
+      setSearchValue,
+    },
   }
 }

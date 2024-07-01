@@ -7,7 +7,10 @@ import { useUserState } from './hooks/useUserState'
 
 function App() {
   const [addUserDialogOpened, setAddUserDialogOpened] = useState(false)
-  const { users, add } = useUserState()
+  const {
+    states: { users, searchValue },
+    actions: { add, setSearchValue },
+  } = useUserState()
 
   const columns = useColumns()
 
@@ -19,6 +22,13 @@ function App() {
           addButtonProps={{
             onClick: () => setAddUserDialogOpened(true),
             label: 'Add User',
+          }}
+          searchProps={{
+            value: searchValue,
+            onChange: (e) => {
+              setSearchValue(e.target.value)
+            },
+            placeholder: 'Search by name',
           }}
           className="bg-white"
         >

@@ -1,8 +1,14 @@
-import { MouseEventHandler, ReactElement, ReactNode } from 'react'
+import {
+  ChangeEventHandler,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import { TbPlus } from 'react-icons/tb'
 import classNames from 'classnames'
 import Row from './Row'
 import Button from '../button'
+import Input from '../input'
 
 interface ColumnProps<T> {
   render: (row: T) => React.ReactNode
@@ -17,6 +23,11 @@ interface DataTableProps<T> {
     onClick: MouseEventHandler<HTMLButtonElement>
     label: ReactNode
   }
+  searchProps: {
+    value: string
+    onChange: ChangeEventHandler<HTMLInputElement>
+    placeholder: string
+  }
 }
 
 export default function DataTable<T>({
@@ -24,6 +35,7 @@ export default function DataTable<T>({
   children,
   data,
   addButtonProps,
+  searchProps,
 }: DataTableProps<T>): JSX.Element {
   return (
     <div
@@ -33,23 +45,28 @@ export default function DataTable<T>({
       )}
     >
       <header className="mb-auto flex justify-between">
-        <div>Search</div>
+        <Input
+          type="text"
+          placeholder={searchProps.placeholder ?? 'Search'}
+          value={searchProps.value}
+          onChange={searchProps.onChange}
+        />
         <Button onClick={addButtonProps.onClick}>
           <TbPlus />
           {addButtonProps.label}
         </Button>
       </header>
-      <table className="w-full flex flex-col h-full">
-        <thead className="w-full">
+      <table className="w-full flex flex-col h-full gap-4">
+        <thead className="w-full border-b-2">
           <Row>
             {children.map((child, index) => (
               <th key={index}>{child.props.header}</th>
             ))}
           </Row>
         </thead>
-        <tbody className="w-full">
+        <tbody className="w-full flex flex-col gap-2">
           {data.map((row, rowIndex) => (
-            <Row key={rowIndex}>
+            <Row key={rowIndex} className="[&:not(:last-child)]:border-b-2">
               {children.map((child, columnIndex) => (
                 <td key={columnIndex} className="text-center">
                   {child.props.render(row)}
@@ -59,7 +76,7 @@ export default function DataTable<T>({
           ))}
         </tbody>
       </table>
-      <footer className="mt-auto flex">
+      <footer className="mt-auto flex border-t-2 py-2 ">
         <div>1-10 of 97</div>
         <div className="flex ml-auto gap-4">
           <div>Rows per page: 10</div>
