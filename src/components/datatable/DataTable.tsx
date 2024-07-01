@@ -47,7 +47,7 @@ export default function DataTable<T>({
   paginationProps,
 }: DataTableProps<T>): JSX.Element {
   const { page, limit, count, onNextPage, onPreviousPage } = paginationProps
-  const lastPage = count / page || 1
+  const lastPage = Math.floor(count / limit) || 1
   const isFirstPage = page === 1
   const isLastPage = page === lastPage
 
@@ -93,7 +93,23 @@ export default function DataTable<T>({
       <footer className="mt-auto flex border-t-2 py-2 items-center">
         <div>{`${1 * page}-${page * paginationProps.limit} of ${count}`}</div>
         <div className="flex ml-auto gap-4 items-center">
-          <div>{`Rows per page: ${limit}`}</div>
+          <div className="flex gap-2 items-center">
+            <span>Rows per page:</span>
+            <Input
+              type="number"
+              value={limit}
+              onChange={(e) => {
+                const newLimit = Number(e.target.value)
+                if (newLimit < 0 || newLimit > 20) {
+                  e.preventDefault()
+                  return
+                }
+
+                paginationProps.setLimit(newLimit)
+              }}
+              className="w-10"
+            />
+          </div>
           <div className="flex gap-4 items-center">
             <Button
               disabled={isFirstPage}
