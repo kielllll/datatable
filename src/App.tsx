@@ -4,6 +4,8 @@ import AddUserDialog from './_components/dialogs/AddUserDialog'
 import { UserRecord } from './types'
 import { useColumns } from './utils'
 import { useUserState } from './hooks/useUserState'
+import Button from './components/button'
+import { FaPen } from 'react-icons/fa'
 
 function App() {
   const [addUserDialogOpened, setAddUserDialogOpened] = useState(false)
@@ -44,7 +46,17 @@ function App() {
             <DataTable.Column
               key={column.key}
               header={column.label}
-              render={(row: UserRecord) => <span>{row[column.key]}</span>}
+              render={(row: UserRecord) => {
+                if (column.key === 'action') {
+                  return (
+                    <Button>
+                      <FaPen /> Edit
+                    </Button>
+                  )
+                }
+
+                return <span>{row[column.key]}</span>
+              }}
             />
           ))}
         </DataTable>

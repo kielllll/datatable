@@ -1,6 +1,6 @@
 import { Column, UserRecord } from './types'
 
-export const useColumns = (): Column<UserRecord>[] => [
+export const useColumns = (): Column<UserRecord & { action: string }>[] => [
   {
     key: 'id',
     label: 'ID',
@@ -20,5 +20,9 @@ export const useColumns = (): Column<UserRecord>[] => [
   {
     key: 'profession',
     label: 'Profression',
+  },
+  {
+    key: 'action',
+    label: 'Action',
   },
 ]
