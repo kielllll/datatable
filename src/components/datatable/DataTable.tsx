@@ -27,7 +27,7 @@ export default function DataTable<T>({
   return (
     <div
       className={classNames(
-        'w-[80%] h-[50%] shadow-sm border rounded-md flex flex-col p-4 gap-4',
+        'w-[80%] h-[75%] shadow-sm border rounded-md flex flex-col p-4 gap-4',
         className
       )}
     >

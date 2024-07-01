@@ -2,8 +2,7 @@ import { Field, Label } from '@headlessui/react'
 import Dialog from '../../components/dialog'
 import Input from '../../components/input'
 import Select from '../../components/select'
-import { UserRecord } from '../../types'
-import { useAddUserForm } from './useAddUserForm'
+import { type AddUserFormSchema, useAddUserForm } from './useAddUserForm'
 
 interface AddUserDialogProps {
   opened: boolean
@@ -20,7 +19,7 @@ export default function AddUserDialog({
     formState: { errors },
   } = useAddUserForm()
 
-  const onSubmit = (data: Omit<UserRecord, 'id'>) => console.log(data)
+  const onSubmit = (data: AddUserFormSchema) => console.log(data)
 
   return (
     <Dialog
@@ -35,21 +34,17 @@ export default function AddUserDialog({
       >
         <Field className="col-span-2 flex flex-col">
           <Label className="text-sm/6 font-medium text-black">Name</Label>
-          <Input
-            {...register('name', { required: true })}
-            type="text"
-            className="w-full"
-          />
+          <Input {...register('name')} type="text" className="w-full" />
           <p className="text-sm/6 text-red-500">{errors.name?.message}</p>
         </Field>
         <Field className="flex flex-col">
           <Label className="text-sm/6 font-medium text-black">Age</Label>
-          <Input {...register('age', { required: true })} type="number" />
+          <Input {...register('age', { valueAsNumber: true })} type="number" />
           <p className="text-sm/6 text-red-500">{errors.age?.message}</p>
         </Field>
         <Field className="flex flex-col">
           <Label className="text-sm/6 font-medium text-black">Gender</Label>
-          <Select {...register('gender', { required: true })}>
+          <Select {...register('gender')}>
             <option value="male">male</option>
             <option value="female">female</option>
             <option value="prefer not to say">prefer not to say</option>
