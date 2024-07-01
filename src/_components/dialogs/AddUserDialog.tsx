@@ -1,8 +1,9 @@
-import { useForm } from 'react-hook-form'
+import { Field, Label } from '@headlessui/react'
 import Dialog from '../../components/dialog'
+import Input from '../../components/input'
+import Select from '../../components/select'
 import { UserRecord } from '../../types'
-import { Input, Select } from '@headlessui/react'
-import Button from '../../components/button'
+import { useAddUserForm } from './useAddUserForm'
 
 interface AddUserDialogProps {
   opened: boolean
@@ -13,14 +14,11 @@ export default function AddUserDialog({
   opened,
   onClose,
 }: AddUserDialogProps): JSX.Element {
-  const { register, handleSubmit } = useForm<Omit<UserRecord, 'id'>>({
-    defaultValues: {
-      name: '',
-      age: 0,
-      gender: 'male',
-      profession: '',
-    },
-  })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useAddUserForm()
 
   const onSubmit = (data: Omit<UserRecord, 'id'>) => console.log(data)
 
@@ -29,23 +27,44 @@ export default function AddUserDialog({
       opened={opened}
       onClose={onClose}
       title="Add User"
-      className="bg-[#F4F7FC]"
+      className="bg-slate-200"
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <Input {...register('name')} type="text" className="col-span-2" />
-        <Input {...register('age')} type="text" />
-        <Select {...register('gender')}>
-          <option value="male">male</option>
-          <option value="female">female</option>
-          <option value="prefer not to say">prefer not to say</option>
-        </Select>
-        <Input {...register('profession')} type="text" className="col-span-2" />
-        <Button className="col-span-2" type="submit">
-          Submit
-        </Button>
+        <Field className="col-span-2 flex flex-col">
+          <Label className="text-sm/6 font-medium text-black">Name</Label>
+          <Input
+            {...register('name', { required: true })}
+            type="text"
+            className="w-full"
+          />
+          <p className="text-sm/6 text-red-500">{errors.name?.message}</p>
+        </Field>
+        <Field className="flex flex-col">
+          <Label className="text-sm/6 font-medium text-black">Age</Label>
+          <Input {...register('age', { required: true })} type="number" />
+          <p className="text-sm/6 text-red-500">{errors.age?.message}</p>
+        </Field>
+        <Field className="flex flex-col">
+          <Label className="text-sm/6 font-medium text-black">Gender</Label>
+          <Select {...register('gender', { required: true })}>
+            <option value="male">male</option>
+            <option value="female">female</option>
+            <option value="prefer not to say">prefer not to say</option>
+          </Select>
+          <p className="text-sm/6 text-red-500">{errors.gender?.message}</p>
+        </Field>
+        <Field className="flex flex-col col-span-2">
+          <Label className="text-sm/6 font-medium text-black">Profession</Label>
+          <Input {...register('profession')} type="text" className="w-full" />
+          <p className="text-sm/6 text-red-500">{errors.profession?.message}</p>
+        </Field>
+        <Input
+          className="inline-flex items-center justify-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white col-span-2"
+          type="submit"
+        />
       </form>
     </Dialog>
   )

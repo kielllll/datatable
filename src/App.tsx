@@ -11,7 +11,7 @@ function App() {
 
   return (
     <>
-      <div className="h-screen w-screen flex justify-center items-center">
+      <div className="h-screen w-screen flex justify-center items-center bg-slate-200">
         <DataTable
           data={
             [
@@ -28,6 +28,7 @@ function App() {
             onClick: () => setAddUserDialogOpened(true),
             label: 'Add User',
           }}
+          className="bg-white"
         >
           {columns.map((column) => (
             <DataTable.Column
