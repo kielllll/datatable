@@ -3,9 +3,11 @@ import DataTable from './components/datatable'
 import AddUserDialog from './_components/dialogs/AddUserDialog'
 import { UserRecord } from './types'
 import { useColumns } from './utils'
+import { useUserState } from './hooks/useUserState'
 
 function App() {
   const [addUserDialogOpened, setAddUserDialogOpened] = useState(false)
+  const { users, add } = useUserState()
 
   const columns = useColumns()
 
@@ -13,17 +15,7 @@ function App() {
     <>
       <div className="h-screen w-screen flex justify-center items-center bg-slate-200">
         <DataTable
-          data={
-            [
-              {
-                id: '123',
-                name: 'Test',
-                age: 24,
-                gender: 'male',
-                profession: 'developer',
-              },
-            ] as UserRecord[]
-          }
+          data={users}
           addButtonProps={{
             onClick: () => setAddUserDialogOpened(true),
             label: 'Add User',
@@ -42,6 +34,7 @@ function App() {
       <AddUserDialog
         opened={addUserDialogOpened}
         onClose={() => setAddUserDialogOpened(false)}
+        onAdd={(data) => add(data as Omit<UserRecord, 'id'>)}
       />
     </>
   )

@@ -7,11 +7,13 @@ import { type AddUserFormSchema, useAddUserForm } from './useAddUserForm'
 interface AddUserDialogProps {
   opened: boolean
   onClose: () => void
+  onAdd: (data: AddUserFormSchema) => void
 }
 
 export default function AddUserDialog({
   opened,
   onClose,
+  onAdd,
 }: AddUserDialogProps): JSX.Element {
   const {
     register,
@@ -21,7 +23,7 @@ export default function AddUserDialog({
   } = useAddUserForm()
 
   const onSubmit = (data: AddUserFormSchema) => {
-    console.log(data)
+    onAdd(data)
     reset()
     onClose()
   }

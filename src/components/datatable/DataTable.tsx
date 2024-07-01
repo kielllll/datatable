@@ -51,7 +51,9 @@ export default function DataTable<T>({
           {data.map((row, rowIndex) => (
             <Row key={rowIndex}>
               {children.map((child, columnIndex) => (
-                <td key={columnIndex}>{child.props.render(row)}</td>
+                <td key={columnIndex} className="text-left">
+                  {child.props.render(row)}
+                </td>
               ))}
             </Row>
           ))}
