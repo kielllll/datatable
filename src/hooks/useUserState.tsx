@@ -26,6 +26,7 @@ export function useUserState() {
       page,
       limit,
       searchValue,
+      count: users.length,
     },
     actions: {
       add,

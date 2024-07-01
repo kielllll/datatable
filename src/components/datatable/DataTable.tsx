@@ -28,6 +28,14 @@ interface DataTableProps<T> {
     onChange: ChangeEventHandler<HTMLInputElement>
     placeholder: string
   }
+  paginationProps: {
+    page: number
+    limit: number
+    count: number
+    onPreviousPage: MouseEventHandler<HTMLButtonElement>
+    onNextPage: MouseEventHandler<HTMLButtonElement>
+    setLimit: React.Dispatch<React.SetStateAction<number>>
+  }
 }
 
 export default function DataTable<T>({
@@ -36,7 +44,13 @@ export default function DataTable<T>({
   data,
   addButtonProps,
   searchProps,
+  paginationProps,
 }: DataTableProps<T>): JSX.Element {
+  const { page, limit, count, onNextPage, onPreviousPage } = paginationProps
+  const lastPage = count / page || 1
+  const isFirstPage = page === 1
+  const isLastPage = page === lastPage
+
   return (
     <div
       className={classNames(
@@ -76,11 +90,31 @@ export default function DataTable<T>({
           ))}
         </tbody>
       </table>
-      <footer className="mt-auto flex border-t-2 py-2 ">
-        <div>1-10 of 97</div>
-        <div className="flex ml-auto gap-4">
-          <div>Rows per page: 10</div>
-          <div>Pagination</div>
+      <footer className="mt-auto flex border-t-2 py-2 items-center">
+        <div>{`${1 * page}-${page * paginationProps.limit} of ${count}`}</div>
+        <div className="flex ml-auto gap-4 items-center">
+          <div>{`Rows per page: ${limit}`}</div>
+          <div className="flex gap-4 items-center">
+            <Button
+              disabled={isFirstPage}
+              className={classNames({
+                disabled: isFirstPage,
+              })}
+              onClick={onNextPage}
+            >
+              {'<'}
+            </Button>
+            <span>{`${page}/${lastPage}`}</span>
+            <Button
+              disabled={isLastPage}
+              className={classNames({
+                disabled: isLastPage,
+              })}
+              onClick={onPreviousPage}
+            >
+              {'>'}
+            </Button>
+          </div>
         </div>
       </footer>
     </div>
