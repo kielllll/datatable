@@ -6,7 +6,7 @@ export type Column<T> = {
 export type UserRecord = {
   id: string
   name: string
-  age: string
+  age: number
   gender: 'male' | 'female' | 'prefer not to say'
   profession?: string
 }
