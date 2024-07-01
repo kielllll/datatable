@@ -70,7 +70,7 @@ export default function DataTable<T>({
           {addButtonProps.label}
         </Button>
       </header>
-      <table className="w-full flex flex-col h-full gap-4">
+      <table className="w-full flex flex-col gap-4 relative h-[calc(100%-9rem)]">
         <thead className="w-full border-b-2">
           <Row>
             {children.map((child, index) => (
@@ -78,7 +78,7 @@ export default function DataTable<T>({
             ))}
           </Row>
         </thead>
-        <tbody className="w-full flex flex-col gap-2">
+        <tbody className="w-full flex flex-col gap-2 overflow-y-scroll">
           {data.map((row, rowIndex) => (
             <Row key={rowIndex} className="[&:not(:last-child)]:border-b-2">
               {children.map((child, columnIndex) => (
