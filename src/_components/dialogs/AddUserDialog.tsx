@@ -40,12 +40,16 @@ export default function AddUserDialog({
         className="grid grid-cols-2 gap-4"
       >
         <Field className="col-span-2 flex flex-col">
-          <Label className="text-sm/6 font-medium text-black">Name</Label>
+          <Label className="text-sm/6 font-medium text-black">
+            Name <span className="text-red-500">*</span>
+          </Label>
           <Input {...register('name')} type="text" className="w-full" />
           <p className="text-sm/6 text-red-500">{errors.name?.message}</p>
         </Field>
         <Field className="flex flex-col">
-          <Label className="text-sm/6 font-medium text-black">Age</Label>
+          <Label className="text-sm/6 font-medium text-black">
+            Age <span className="text-red-500">*</span>
+          </Label>
           <Input {...register('age', { valueAsNumber: true })} type="number" />
           <p className="text-sm/6 text-red-500">{errors.age?.message}</p>
         </Field>
