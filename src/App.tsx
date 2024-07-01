@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import DataTable from './components/datatable'
+import AddUserDialog from './_components/dialogs/AddUserDialog'
 import { UserRecord } from './types'
 import { useColumns } from './utils'
-import Dialog from './components/dialog/Dialog'
 
 function App() {
-  const [opened, setOpened] = useState(false)
+  const [addUserDialogOpened, setAddUserDialogOpened] = useState(false)
 
   const columns = useColumns()
 
@@ -25,7 +25,7 @@ function App() {
             ] as UserRecord[]
           }
           addButtonProps={{
-            onClick: () => setOpened(true),
+            onClick: () => setAddUserDialogOpened(true),
             label: 'Add User',
           }}
         >
@@ -38,9 +38,10 @@ function App() {
           ))}
         </DataTable>
       </div>
-      <Dialog opened={opened} onClose={() => setOpened(false)} title="Add User">
-        {'Hello World'}
-      </Dialog>
+      <AddUserDialog
+        opened={addUserDialogOpened}
+        onClose={() => setAddUserDialogOpened(false)}
+      />
     </>
   )
 }
