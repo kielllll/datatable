@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import type { UserRecord } from '../types'
 
@@ -20,9 +20,20 @@ export function useUserState() {
     ])
   }
 
+  const filteredUsers = useMemo(() => {
+    const searchResults = users.filter((user) =>
+      user.name.toLowerCase().includes(searchValue.toLowerCase())
+    )
+
+    const startIndex = (page - 1) * limit
+    const endIndex = startIndex + limit
+
+    return searchResults.slice(startIndex, endIndex)
+  }, [users, searchValue, limit, page])
+
   return {
     states: {
-      users,
+      users: filteredUsers,
       page,
       limit,
       searchValue,
