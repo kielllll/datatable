@@ -116,7 +116,7 @@ export default function DataTable<T>({
               className={classNames({
                 disabled: isFirstPage,
               })}
-              onClick={onNextPage}
+              onClick={onPreviousPage}
             >
               {'<'}
             </Button>
@@ -126,7 +126,7 @@ export default function DataTable<T>({
               className={classNames({
                 disabled: isLastPage,
               })}
-              onClick={onPreviousPage}
+              onClick={onNextPage}
             >
               {'>'}
             </Button>
