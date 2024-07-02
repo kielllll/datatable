@@ -7,7 +7,7 @@ import { useGetGenderOptions } from '../../utils'
 interface EditUserDialogProps {
   opened: boolean
   onClose: () => void
-  onEdit: (data: UserFormSchema) => void
+  onEdit: (data: UserRecord) => void
   user: UserRecord
 }
 
@@ -27,11 +27,15 @@ export default function EditUserDialog({
   })
 
   const onSubmit = (data: UserFormSchema) => {
-    onEdit(data)
+    onEdit({
+      ...data,
+      gender: data.gender as UserRecord['gender'],
+      id: user.id,
+    })
     reset()
     onClose()
   }
-  console.log(user)
+
   const options = useGetGenderOptions()
 
   return (

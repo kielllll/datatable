@@ -21,6 +21,16 @@ export function useUserState() {
     ])
   }
 
+  const edit = (user: UserRecord) => {
+    const currentUsers = [...users]
+    const userIndex = users.findIndex((u) => u.id === user.id)
+
+    if (userIndex !== -1) {
+      currentUsers[userIndex] = user
+      setUsers(currentUsers)
+    }
+  }
+
   const filteredUsers = useMemo(() => {
     const searchResults = users.filter((user) =>
       user.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -43,6 +53,7 @@ export function useUserState() {
     },
     actions: {
       add,
+      edit,
       setPage,
       setLimit,
       setSearchValue,

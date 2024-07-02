@@ -15,7 +15,7 @@ function App() {
   } = useDialogsState()
   const {
     states: { users, searchValue, page, limit, count, user },
-    actions: { add, setSearchValue, setPage, setLimit, setUser },
+    actions: { add, edit, setSearchValue, setPage, setLimit, setUser },
   } = useUserState()
 
   const columns = useColumns()
@@ -75,7 +75,7 @@ function App() {
           opened={!!user}
           user={user}
           onClose={() => setUser(null)}
-          onEdit={(data) => console.log(data)}
+          onEdit={(data) => edit(data)}
         />
       )}
     </>
