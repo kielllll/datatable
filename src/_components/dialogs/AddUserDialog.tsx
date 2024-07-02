@@ -1,13 +1,13 @@
 import { Field, Label } from '@headlessui/react'
 import Dialog from '../../components/dialog'
-import Input from '../../components/input'
+import { Input, TextInput } from '../../components/input'
 import Select from '../../components/select'
-import { type AddUserFormSchema, useAddUserForm } from './useAddUserForm'
+import { type UserFormSchema, useUserForm } from './useUserForm'
 
 interface AddUserDialogProps {
   opened: boolean
   onClose: () => void
-  onAdd: (data: AddUserFormSchema) => void
+  onAdd: (data: UserFormSchema) => void
 }
 
 export default function AddUserDialog({
@@ -20,9 +20,9 @@ export default function AddUserDialog({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useAddUserForm()
+  } = useUserForm()
 
-  const onSubmit = (data: AddUserFormSchema) => {
+  const onSubmit = (data: UserFormSchema) => {
     onAdd(data)
     reset()
     onClose()
@@ -39,13 +39,16 @@ export default function AddUserDialog({
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <Field className="col-span-2 flex flex-col">
-          <Label className="text-sm/6 font-medium text-black">
-            Name <span className="text-red-500">*</span>
-          </Label>
-          <Input {...register('name')} type="text" className="w-full" />
-          <p className="text-sm/6 text-red-500">{errors.name?.message}</p>
-        </Field>
+        <TextInput
+          label="Name"
+          isRequired
+          error={errors.name?.message}
+          inputProps={{
+            ...register('name'),
+            className: 'w-full',
+          }}
+          className="col-span-2"
+        />
         <Field className="flex flex-col">
           <Label className="text-sm/6 font-medium text-black">
             Age <span className="text-red-500">*</span>
@@ -62,11 +65,15 @@ export default function AddUserDialog({
           </Select>
           <p className="text-sm/6 text-red-500">{errors.gender?.message}</p>
         </Field>
-        <Field className="flex flex-col col-span-2">
-          <Label className="text-sm/6 font-medium text-black">Profession</Label>
-          <Input {...register('profession')} type="text" className="w-full" />
-          <p className="text-sm/6 text-red-500">{errors.profession?.message}</p>
-        </Field>
+        <TextInput
+          label="Name"
+          error={errors.name?.message}
+          inputProps={{
+            ...register('profession'),
+            className: 'w-full',
+          }}
+          className="col-span-2"
+        />
         <Input
           className="inline-flex items-center justify-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white col-span-2"
           type="submit"

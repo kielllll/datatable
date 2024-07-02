@@ -15,10 +15,10 @@ const schema = z.object({
   profession: z.string().max(100, 'Text is too long'),
 })
 
-export type AddUserFormSchema = z.infer<typeof schema>
+export type UserFormSchema = z.infer<typeof schema>
 
-export function useAddUserForm() {
-  return useForm<AddUserFormSchema>({
+export function useUserForm() {
+  return useForm<UserFormSchema>({
     defaultValues: {
       name: '',
       age: 0,

@@ -8,7 +8,7 @@ import { TbPlus } from 'react-icons/tb'
 import classNames from 'classnames'
 import Row from './Row'
 import Button from '../button'
-import Input from '../input'
+import { Input } from '../input'
 
 interface ColumnProps<T> {
   render: (row: T) => React.ReactNode
@@ -78,7 +78,7 @@ export default function DataTable<T>({
             ))}
           </Row>
         </thead>
-        <tbody className="w-full flex flex-col gap-2 overflow-y-scroll">
+        <tbody className="w-full flex flex-col gap-2 overflow-y-scroll h-full">
           {data.map((row, rowIndex) => (
             <Row key={rowIndex} className="[&:not(:last-child)]:border-b-2">
               {children.map((child, columnIndex) => (
