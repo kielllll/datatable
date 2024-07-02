@@ -1,4 +1,4 @@
-import { FaPen } from 'react-icons/fa'
+import { FaPen, FaRegTrashAlt } from 'react-icons/fa'
 import DataTable from './components/datatable'
 import AddUserDialog from './_components/dialogs/AddUserDialog'
 import { UserRecord } from './types'
@@ -7,15 +7,27 @@ import { useUserState } from './hooks/useUserState'
 import Button from './components/button'
 import { useDialogsState } from './hooks/useDialogsState'
 import EditUserDialog from './_components/dialogs/EditUserDialog'
+import DeleteUserDialog from './_components/dialogs/DeleteUserDialog'
 
 function App() {
   const {
-    states: { addUserDialogOpened },
-    actions: { openAddUserDialog, closeAddUserDialog },
+    states: {
+      addUserDialogOpened,
+      deleteUserDialogOpened,
+      editUserDialogOpened,
+    },
+    actions: {
+      openAddUserDialog,
+      closeAddUserDialog,
+      openEditUserDialog,
+      closeEditUserDialog,
+      openDeleteUserDialog,
+      closeDeleteUserDialog,
+    },
   } = useDialogsState()
   const {
     states: { users, searchValue, page, limit, count, user },
-    actions: { add, edit, setSearchValue, setPage, setLimit, setUser },
+    actions: { add, edit, setSearchValue, setPage, setLimit, setUser, remove },
   } = useUserState()
 
   const columns = useColumns()
@@ -53,9 +65,25 @@ function App() {
               render={(row: UserRecord) => {
                 if (column.key === 'action') {
                   return (
-                    <Button onClick={() => setUser(row)}>
-                      <FaPen /> Edit
-                    </Button>
+                    <div className="flex gap-4 justify-center">
+                      <Button
+                        onClick={() => {
+                          setUser(row)
+                          openEditUserDialog()
+                        }}
+                      >
+                        <FaPen /> Edit
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setUser(row)
+                          openDeleteUserDialog()
+                        }}
+                        className="bg-red-500 hover:!bg-red-400"
+                      >
+                        <FaRegTrashAlt /> Delete
+                      </Button>
+                    </div>
                   )
                 }
 
@@ -65,17 +93,34 @@ function App() {
           ))}
         </DataTable>
       </div>
+
       <AddUserDialog
         opened={addUserDialogOpened}
         onClose={closeAddUserDialog}
         onAdd={(data) => add(data as Omit<UserRecord, 'id'>)}
       />
-      {user && (
+
+      {user && editUserDialogOpened && (
         <EditUserDialog
-          opened={!!user}
+          opened={editUserDialogOpened}
           user={user}
-          onClose={() => setUser(null)}
+          onClose={() => {
+            closeEditUserDialog()
+            setUser(null)
+          }}
           onEdit={(data) => edit(data)}
+        />
+      )}
+
+      {user && deleteUserDialogOpened && (
+        <DeleteUserDialog
+          opened={deleteUserDialogOpened}
+          user={user}
+          onClose={() => {
+            closeDeleteUserDialog()
+            setUser(null)
+          }}
+          onDelete={remove}
         />
       )}
     </>
