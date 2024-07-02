@@ -91,7 +91,10 @@ export default function DataTable<T>({
         </tbody>
       </table>
       <footer className="mt-auto flex border-t-2 py-2 items-center">
-        <div>{`${1 * page}-${page * paginationProps.limit} of ${count}`}</div>
+        <div>{`${(page - 1) * limit + 1}-${Math.min(
+          page * limit,
+          count
+        )} of ${count}`}</div>
         <div className="flex ml-auto gap-4 items-center">
           <div className="flex gap-2 items-center">
             <span>Rows per page:</span>
