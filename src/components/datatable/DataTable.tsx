@@ -140,4 +140,4 @@ export default function DataTable<T>({
   )
 }
 
-DataTable.Column = <T extends unknown>(props: ColumnProps<T>): null => null
+DataTable.Column = <T extends unknown>(_props: ColumnProps<T>): null => null
