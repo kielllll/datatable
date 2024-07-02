@@ -1,17 +1,21 @@
-import { useState } from 'react'
+import { FaPen } from 'react-icons/fa'
 import DataTable from './components/datatable'
 import AddUserDialog from './_components/dialogs/AddUserDialog'
 import { UserRecord } from './types'
 import { useColumns } from './utils'
 import { useUserState } from './hooks/useUserState'
 import Button from './components/button'
-import { FaPen } from 'react-icons/fa'
+import { useDialogsState } from './hooks/useDialogsState'
+import EditUserDialog from './_components/dialogs/EditUserDialog'
 
 function App() {
-  const [addUserDialogOpened, setAddUserDialogOpened] = useState(false)
   const {
-    states: { users, searchValue, page, limit, count },
-    actions: { add, setSearchValue, setPage, setLimit },
+    states: { addUserDialogOpened },
+    actions: { openAddUserDialog, closeAddUserDialog },
+  } = useDialogsState()
+  const {
+    states: { users, searchValue, page, limit, count, user },
+    actions: { add, setSearchValue, setPage, setLimit, setUser },
   } = useUserState()
 
   const columns = useColumns()
@@ -22,7 +26,7 @@ function App() {
         <DataTable
           data={users}
           addButtonProps={{
-            onClick: () => setAddUserDialogOpened(true),
+            onClick: openAddUserDialog,
             label: 'Add User',
           }}
           searchProps={{
@@ -49,7 +53,7 @@ function App() {
               render={(row: UserRecord) => {
                 if (column.key === 'action') {
                   return (
-                    <Button>
+                    <Button onClick={() => setUser(row)}>
                       <FaPen /> Edit
                     </Button>
                   )
@@ -63,9 +67,17 @@ function App() {
       </div>
       <AddUserDialog
         opened={addUserDialogOpened}
-        onClose={() => setAddUserDialogOpened(false)}
+        onClose={closeAddUserDialog}
         onAdd={(data) => add(data as Omit<UserRecord, 'id'>)}
       />
+      {user && (
+        <EditUserDialog
+          opened={!!user}
+          user={user}
+          onClose={() => setUser(null)}
+          onEdit={(data) => console.log(data)}
+        />
+      )}
     </>
   )
 }

@@ -1,39 +1,44 @@
 import Dialog from '../../components/dialog'
 import { Input, NumberInput, TextInput, Select } from '../../components/input'
 import { type UserFormSchema, useUserForm } from '../../hooks/useUserForm'
+import { UserRecord } from '../../types'
 import { useGetGenderOptions } from '../../utils'
 
-interface AddUserDialogProps {
+interface EditUserDialogProps {
   opened: boolean
   onClose: () => void
-  onAdd: (data: UserFormSchema) => void
+  onEdit: (data: UserFormSchema) => void
+  user: UserRecord
 }
 
-export default function AddUserDialog({
+export default function EditUserDialog({
   opened,
   onClose,
-  onAdd,
-}: AddUserDialogProps): JSX.Element {
+  onEdit,
+  user,
+}: EditUserDialogProps): JSX.Element {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useUserForm()
+  } = useUserForm({
+    values: user,
+  })
 
   const onSubmit = (data: UserFormSchema) => {
-    onAdd(data)
+    onEdit(data)
     reset()
     onClose()
   }
-
+  console.log(user)
   const options = useGetGenderOptions()
 
   return (
     <Dialog
       opened={opened}
       onClose={onClose}
-      title="Add User"
+      title="Edit User"
       className="bg-slate-200"
     >
       <form

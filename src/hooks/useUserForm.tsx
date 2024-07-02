@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm, type UseFormProps } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -12,12 +12,12 @@ const schema = z.object({
     .min(18, 'Age must be at least 18')
     .max(65, 'Age must be at most 65'),
   gender: z.string(),
-  profession: z.string().max(100, 'Text is too long'),
+  profession: z.string().max(100, 'Text is too long').optional(),
 })
 
 export type UserFormSchema = z.infer<typeof schema>
 
-export function useUserForm() {
+export function useUserForm(props?: UseFormProps<UserFormSchema>) {
   return useForm<UserFormSchema>({
     defaultValues: {
       name: '',
@@ -26,5 +26,6 @@ export function useUserForm() {
       profession: '',
     },
     resolver: zodResolver(schema),
+    ...props,
   })
 }
