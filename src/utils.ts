@@ -26,3 +26,18 @@ export const useColumns = (): Column<UserRecord & { action: string }>[] => [
     label: 'Action',
   },
 ]
+
+export const useGetGenderOptions = () => [
+  {
+    label: 'male',
+    value: 'male',
+  },
+  {
+    label: 'female',
+    value: 'female',
+  },
+  {
+    label: 'prefer not to say',
+    value: 'prefer not to say',
+  },
+]

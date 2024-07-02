@@ -1,8 +1,7 @@
-import { Field, Label } from '@headlessui/react'
 import Dialog from '../../components/dialog'
-import { Input, TextInput } from '../../components/input'
-import Select from '../../components/select'
+import { Input, NumberInput, TextInput, Select } from '../../components/input'
 import { type UserFormSchema, useUserForm } from './useUserForm'
+import { useGetGenderOptions } from '../../utils'
 
 interface AddUserDialogProps {
   opened: boolean
@@ -28,6 +27,8 @@ export default function AddUserDialog({
     onClose()
   }
 
+  const options = useGetGenderOptions()
+
   return (
     <Dialog
       opened={opened}
@@ -49,25 +50,22 @@ export default function AddUserDialog({
           }}
           className="col-span-2"
         />
-        <Field className="flex flex-col">
-          <Label className="text-sm/6 font-medium text-black">
-            Age <span className="text-red-500">*</span>
-          </Label>
-          <Input {...register('age', { valueAsNumber: true })} type="number" />
-          <p className="text-sm/6 text-red-500">{errors.age?.message}</p>
-        </Field>
-        <Field className="flex flex-col">
-          <Label className="text-sm/6 font-medium text-black">Gender</Label>
-          <Select {...register('gender')}>
-            <option value="male">male</option>
-            <option value="female">female</option>
-            <option value="prefer not to say">prefer not to say</option>
-          </Select>
-          <p className="text-sm/6 text-red-500">{errors.gender?.message}</p>
-        </Field>
+        <NumberInput
+          label="Number"
+          error={errors.age?.message}
+          inputProps={register('age', { valueAsNumber: true })}
+          isRequired
+        />
+        <Select
+          options={options}
+          label="Gender"
+          error={errors.gender?.message}
+          isRequired
+          selectProps={register('gender')}
+        />
         <TextInput
-          label="Name"
-          error={errors.name?.message}
+          label="Profession"
+          error={errors.profession?.message}
           inputProps={{
             ...register('profession'),
             className: 'w-full',
